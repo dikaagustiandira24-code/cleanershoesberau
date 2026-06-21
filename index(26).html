@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cleaner Shoes — Cuci Sepatu Berau</title>
+<meta name="description" content="Cleaner Shoes - Jasa cuci sepatu di Berau. Mulai Rp25.000, gratis antar-jemput, proses 1-2 hari, order 24 jam via WhatsApp.">
+
+<!--
+  CATATAN UNTUK DIKA:
+  - Ganti nomor WA di variabel WA_NUMBER (JS, bagian bawah) kalau berubah.
+  - Bagian "Galeri" (id="galeri") masih placeholder ilustrasi.
+    Tinggal ganti <div class="shoe-art ..."> dengan <img src="foto-kamu.jpg">
+    begitu foto before-after asli sudah ada.
+  - Link Instagram ada di beberapa tempat: cari "cleaner.shoes__"
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#14171A;
+    --paper:#F3F6F1;
+    --paper-soft:#E9EEE6;
+    --denim:#233B5C;
+    --denim-deep:#142840;
+    --amber:#E8A33D;
+    --teal:#2F9C8B;
+    --line: rgba(20,23,26,0.18);
+    --radius: 16px;
+    --max: 1120px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --font-body:'Plus Jakarta Sans', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  h1,h2,h3{font-family:var(--font-display);margin:0;line-height:1.1;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--denim);
+    font-weight:700;
+  }
+  .section{padding:88px 24px;}
+  .wrap{max-width:var(--max);margin:0 auto;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);
+    font-weight:700;font-size:0.85rem;letter-spacing:0.02em;
+    padding:14px 24px;border-radius:999px;
+    border:2px solid var(--denim);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{background:var(--denim);color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,40,64,0.25);}
+  .btn-ghost{background:transparent;color:var(--denim);}
+  .btn-ghost:hover{background:var(--denim);color:var(--paper);}
+  .btn-amber{background:var(--amber);border-color:var(--amber);color:var(--denim-deep);}
+  .btn-amber:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(232,163,61,0.4);}
+  :focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+
+  /* ---------- HEADER ---------- */
+  .site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(243,246,241,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    max-width:var(--max);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-weight:700;font-size:1.25rem;
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--amber);}
+  .nav-links{display:flex;gap:28px;font-family:var(--font-mono);font-size:0.8rem;letter-spacing:0.03em;}
+  .nav-links a{padding:6px 0;border-bottom:2px solid transparent;}
+  .nav-links a:hover{border-color:var(--amber);}
+  .header-actions{display:flex;align-items:center;gap:14px;}
+  .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .menu-toggle span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;}
+
+  @media (max-width:840px){
+    .nav-links{
+      position:absolute;top:100%;left:0;right:0;
+      flex-direction:column;gap:0;
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      max-height:0;overflow:hidden;
+      transition:max-height .25s ease;
+    }
+    .nav-links.open{max-height:280px;}
+    .nav-links a{padding:14px 24px;border-bottom:1px solid var(--line);}
+    .menu-toggle{display:block;}
+    .header-actions .btn-text{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:72px 24px 100px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    max-width:var(--max);margin:0 auto;
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.3rem, 4.2vw, 3.6rem);
+    margin:18px 0 22px;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 span{color:var(--denim);}
+  .hero p.lede{font-size:1.08rem;max-width:480px;color:#3A3F35;margin-bottom:32px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+
+  /* care-tag signature element */
+  .care-tag{
+    background:var(--paper);
+    border:2px dashed rgba(20,23,26,0.3);
+    border-radius:20px 20px 26px 26px;
+    padding:34px 30px;
+    position:relative;
+    transform:rotate(-2.5deg);
+    box-shadow:0 24px 50px rgba(20,40,64,0.16);
+    max-width:380px;
+    margin:0 auto;
+  }
+  .care-tag::before{
+    content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    width:26px;height:26px;border-radius:50%;
+    background:var(--denim);border:5px solid var(--paper);
+    box-shadow:0 4px 10px rgba(20,40,64,0.3);
+  }
+  .care-tag .tag-code{font-family:var(--font-mono);font-size:0.72rem;color:var(--denim);letter-spacing:0.08em;}
+  .care-tag h3{font-size:1.3rem;margin:10px 0 16px;}
+  .care-tag .care-icons{display:flex;flex-direction:column;gap:14px;}
+  .care-row{display:flex;align-items:center;gap:12px;font-size:0.92rem;}
+  .care-row svg{flex:0 0 auto;width:22px;height:22px;color:var(--teal);}
+
+  /* ---------- QUICKFACTS ---------- */
+  .quickfacts{padding:0 24px 40px;}
+  .qf-grid{
+    max-width:var(--max);margin:0 auto;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  }
+  .qf-card{
+    background:var(--denim);color:var(--paper);
+    border-radius:var(--radius);
+    padding:22px 18px;
+    font-family:var(--font-mono);
+  }
+  .qf-card .num{font-size:1.5rem;font-weight:700;color:var(--amber);display:block;margin-bottom:6px;}
+  .qf-card .label{font-size:0.78rem;color:#C7D2D9;letter-spacing:0.02em;}
+  @media (max-width:780px){.qf-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- LAYANAN ---------- */
+  .layanan .wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+  }
+  .layanan h2{font-size:clamp(1.8rem,3vw,2.4rem);margin:14px 0 18px;}
+  .layanan p{color:#3A3F35;margin-bottom:14px;max-width:480px;}
+  .check-list{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
+  .check-item{display:flex;gap:10px;align-items:flex-start;font-size:0.95rem;}
+  .check-item svg{flex:0 0 auto;width:18px;height:18px;margin-top:3px;color:var(--teal);}
+
+  .price-tag{
+    background:var(--paper-soft);
+    border-radius:22px;
+    padding:38px 34px;
+    position:relative;
+    border:2px solid var(--ink);
+  }
+  .price-tag .eyebrow{margin-bottom:10px;}
+  .price-tag .price{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(2.4rem,5vw,3.2rem);
+    color:var(--denim);line-height:1;
+  }
+  .price-tag .price small{font-family:var(--font-mono);font-size:0.9rem;color:var(--ink);font-weight:500;}
+  .price-tag .note{font-size:0.9rem;color:#4A4F44;margin:16px 0 24px;}
+  .price-scale{display:flex;align-items:center;gap:8px;margin:18px 0 8px;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.06em;color:var(--ink);}
+  .price-bar{flex:1;height:8px;border-radius:999px;background:linear-gradient(90deg, var(--teal), var(--amber));}
+
+  /* ---------- CARA ORDER ---------- */
+  .cara-order{background:var(--denim-deep);color:var(--paper);}
+  .cara-order .eyebrow{color:var(--amber);}
+  .cara-order h2{color:var(--paper);font-size:clamp(1.8rem,3vw,2.4rem);margin:14px 0 40px;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .step{
+    background:rgba(243,246,241,0.06);
+    border:1px solid rgba(243,246,241,0.18);
+    border-radius:var(--radius);
+    padding:24px 20px;
+  }
+  .step .step-num{font-family:var(--font-mono);font-size:0.78rem;color:var(--amber);display:block;margin-bottom:14px;}
+  .step h3{font-size:1.05rem;margin-bottom:8px;color:var(--paper);}
+  .step p{font-size:0.88rem;color:#C7D2D9;margin:0;}
+  @media (max-width:900px){.steps{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr;}}
+
+  /* ---------- AREA & JAM ---------- */
+  .area-jam .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+  .area-jam h2{font-size:clamp(1.8rem,3vw,2.4rem);margin:14px 0 18px;}
+  .area-jam p{color:#3A3F35;max-width:460px;}
+  .pin-art{
+    width:100%;aspect-ratio:1/1;max-width:340px;margin:0 auto;
+    position:relative;
+  }
+  .ring{
+    position:absolute;border-radius:50%;border:2px dashed rgba(35,59,92,0.35);
+    top:50%;left:50%;transform:translate(-50%,-50%);
+  }
+  .ring.r1{width:100%;height:100%;}
+  .ring.r2{width:70%;height:70%;}
+  .ring.r3{width:42%;height:42%;background:var(--denim);border:none;display:flex;align-items:center;justify-content:center;}
+  .ring.r3 svg{width:38%;height:38%;color:var(--paper);}
+  .pin-caption{
+    position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+    font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.05em;
+    background:var(--amber);color:var(--denim-deep);padding:6px 14px;border-radius:999px;
+    white-space:nowrap;
+  }
+  .info-rows{display:flex;flex-direction:column;gap:18px;margin-top:24px;}
+  .info-row{display:flex;gap:14px;align-items:flex-start;}
+  .info-row svg{flex:0 0 auto;width:26px;height:26px;color:var(--denim);margin-top:2px;}
+  .info-row strong{display:block;font-family:var(--font-display);font-size:1.02rem;}
+  .info-row span{font-size:0.9rem;color:#4A4F44;}
+
+  /* ---------- GALERI ---------- */
+  .galeri h2{font-size:clamp(1.8rem,3vw,2.4rem);margin:14px 0 10px;}
+  .galeri > .wrap > p{color:#3A3F35;max-width:520px;margin-bottom:36px;}
+  .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .gal-card{
+    background:var(--paper-soft);border-radius:var(--radius);
+    padding:18px;text-align:center;border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .shoe-art{
+    height:160px;border-radius:12px;overflow:hidden;margin-bottom:14px;
+    background:#fff;
+  }
+  .shoe-art img{width:100%;height:100%;object-fit:cover;display:block;}
+  .shoe-art img.flip{transform:scaleX(-1);}
+  .gal-card .tagline{font-family:var(--font-mono);font-size:0.78rem;color:var(--denim);letter-spacing:0.04em;}
+  @media (max-width:980px){.gal-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.gal-grid{grid-template-columns:1fr;}}
+
+  /* ---------- KONTAK ---------- */
+  .kontak{background:var(--paper-soft);}
+  .kontak .wrap{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:start;}
+  .kontak h2{font-size:clamp(1.8rem,3vw,2.4rem);margin:14px 0 18px;}
+  .kontak p.lede{color:#3A3F35;max-width:420px;margin-bottom:28px;}
+  .contact-card{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .contact-card:last-child{border-bottom:none;}
+  .contact-card svg{width:24px;height:24px;color:var(--denim);flex:0 0 auto;}
+  .contact-card strong{display:block;font-family:var(--font-display);font-size:1rem;}
+  .contact-card span{font-size:0.88rem;color:#4A4F44;}
+
+  form.order-form{
+    background:var(--paper);border-radius:var(--radius);
+    padding:32px;border:1px solid var(--line);
+  }
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;font-family:var(--font-mono);font-size:0.72rem;
+    letter-spacing:0.06em;text-transform:uppercase;color:var(--denim);margin-bottom:8px;
+  }
+  .field input, .field textarea{
+    width:100%;padding:12px 14px;border-radius:10px;
+    border:1.5px solid var(--line);font-family:var(--font-body);font-size:0.95rem;
+    background:var(--paper);color:var(--ink);
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--denim);outline:none;}
+  .field textarea{resize:vertical;min-height:80px;}
+  .form-submit{width:100%;justify-content:center;cursor:pointer;}
+
+  @media (max-width:900px){
+    .hero-grid, .layanan .wrap, .area-jam .wrap, .kontak .wrap{grid-template-columns:1fr;}
+    .care-tag{margin-top:20px;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{background:var(--denim-deep);color:#C7D2D9;padding:40px 24px;}
+  .foot-row{
+    max-width:var(--max);margin:0 auto;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  }
+  .foot-row .logo{color:var(--paper);}
+  .foot-links{display:flex;gap:18px;font-family:var(--font-mono);font-size:0.78rem;}
+  .foot-fine{font-family:var(--font-mono);font-size:0.72rem;color:#7F8C8F;text-align:center;margin-top:24px;}
+
+  /* ---------- FLOATING WA ---------- */
+  .float-wa{
+    position:fixed;bottom:24px;right:24px;z-index:60;
+    width:58px;height:58px;border-radius:50%;
+    background:var(--teal);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 28px rgba(47,156,139,0.45);
+    transition:transform .15s ease;
+  }
+  .float-wa:hover{transform:scale(1.08);}
+  .float-wa svg{width:28px;height:28px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="header-row">
+    <a href="#top" class="logo"><span class="dot"></span>Cleaner Shoes</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#layanan">Layanan</a>
+      <a href="#cara-order">Cara Order</a>
+      <a href="#area">Area & Jam</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-primary btn-text" target="_blank" rel="noopener"
+         href="https://wa.me/6282228617645?text=Halo%20Cleaner%20Shoes!%20Saya%20mau%20cuci%20sepatu.">
+        Order via WA
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Buka menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">Cleaner Shoes — Berau</span>
+      <h1>Sepatu kotor?<br><span>Titip aja.</span></h1>
+      <p class="lede">Jasa cuci sepatu di Berau. Gratis antar-jemput, dikerjakan teliti, dan bisa order kapan aja — kami yang jemput, kamu tinggal pakai lagi.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" target="_blank" rel="noopener"
+           href="https://wa.me/6282228617645?text=Halo%20Cleaner%20Shoes!%20Saya%20mau%20cuci%20sepatu.">
+          Order via WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="#layanan">Lihat Harga</a>
+      </div>
+    </div>
+    <div class="care-tag reveal">
+      <span class="tag-code">NO. 0001 — CARE LABEL</span>
+      <h3>Cara rawatnya gampang:</h3>
+      <div class="care-icons">
+        <div class="care-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M12 3v18"/></svg>
+          Hubungi kami, kasih tau kondisi sepatu
+        </div>
+        <div class="care-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          Tunggu 1–2 hari, kami kerjakan
+        </div>
+        <div class="care-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          Sepatu balik bersih, siap dipakai
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUICKFACTS ================= -->
+<section class="quickfacts">
+  <div class="qf-grid">
+    <div class="qf-card reveal"><span class="num">Rp25rb</span><span class="label">harga mulai dari</span></div>
+    <div class="qf-card reveal"><span class="num">Gratis</span><span class="label">antar-jemput area Berau</span></div>
+    <div class="qf-card reveal"><span class="num">1–2 hari</span><span class="label">waktu pengerjaan</span></div>
+    <div class="qf-card reveal"><span class="num">24 jam</span><span class="label">order kapan aja</span></div>
+  </div>
+</section>
+
+<!-- ================= LAYANAN & HARGA ================= -->
+<section class="section layanan" id="layanan">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Layanan</span>
+      <h2>Satu layanan,<br>dikerjakan dengan niat.</h2>
+      <p>Kami fokus di satu hal: cuci sepatu reguler yang dikerjain teliti — bagian luar dan sol disikat manual sampai kotoran membandel hilang, lalu dikeringkan sebelum dikembalikan ke kamu.</p>
+      <div class="check-list">
+        <div class="check-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          Dibersihkan bagian luar & sol
+        </div>
+        <div class="check-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          Kotoran membandel disikat manual
+        </div>
+        <div class="check-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          Dikeringkan sebelum dikembalikan
+        </div>
+      </div>
+    </div>
+    <div class="price-tag reveal">
+      <span class="eyebrow">Cuci Sepatu Reguler</span>
+      <div class="price">Rp25.000<small> /pasang, mulai dari</small></div>
+      <div class="price-scale">
+        <span>RINGAN</span><div class="price-bar"></div><span>BERAT</span>
+      </div>
+      <p class="note">Harga akhir disesuaikan sama tingkat kotornya sepatu kamu — makin berat kondisinya, makin tinggi dari harga awal. Selalu dikonfirmasi dulu sebelum mulai dikerjakan, jadi nggak ada harga kaget.</p>
+      <a class="btn btn-amber" target="_blank" rel="noopener"
+         href="https://wa.me/6282228617645?text=Halo%20Cleaner%20Shoes!%20Sepatu%20saya%20agak%20kotor%2C%20kira-kira%20harganya%20berapa%20ya%3F">
+        Cek harga sepatu kamu
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CARA ORDER ================= -->
+<section class="section cara-order" id="cara-order">
+  <div class="wrap">
+    <span class="eyebrow">Cara Order</span>
+    <h2>4 langkah, selesai.</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="step-num">01</span>
+        <h3>Hubungi kami</h3>
+        <p>Via WhatsApp, Instagram, atau form di bagian Kontak. Ceritain kondisi sepatunya.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">02</span>
+        <h3>Jemput atau drop-off</h3>
+        <p>Area Berau gratis dijemput. Bisa juga drop-off langsung kalau lebih cepat buat kamu.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">03</span>
+        <h3>Diproses 1–2 hari</h3>
+        <p>Sepatu dibersihkan dan dikeringkan dengan teliti, sesuai tingkat kotornya.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">04</span>
+        <h3>Siap dipakai lagi</h3>
+        <p>Dikirim balik atau diambil — sepatu bersih, kamu lanjut jalan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AREA & JAM ================= -->
+<section class="section area-jam" id="area">
+  <div class="wrap">
+    <div class="pin-art reveal">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      </div>
+      <span class="pin-caption">Zona antar-jemput gratis</span>
+    </div>
+    <div>
+      <span class="eyebrow">Area & Jam Operasional</span>
+      <h2>Order kapan aja, dijemput gratis.</h2>
+      <p>Kami buka order 24 jam, jadi kamu bisa hubungi kapan pun sepatu mulai bau atau kotor.</p>
+      <div class="info-rows">
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <div>
+            <strong>Order 24 jam</strong>
+            <span>Chat WhatsApp atau Instagram kapan saja, biasanya cepat dibalas.</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <div>
+            <strong>Gratis antar-jemput</strong>
+            <span>Khusus area Berau. Di luar itu, drop-off langsung ya.</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+          <div>
+            <strong>Pengerjaan 1–2 hari</strong>
+            <span>Tergantung antrean dan tingkat kotornya sepatu.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALERI ================= -->
+<section class="section galeri" id="galeri">
+  <div class="wrap">
+    <span class="eyebrow">Hasil Cucian</span>
+    <h2>Sebelum dan sesudah.</h2>
+    <p>Foto before-after asli, biar kamu yakin sama hasilnya.</p>
+    <div class="gal-grid">
+      <div class="gal-card reveal">
+        <div class="shoe-art">
+          <img src="sebelum1.webp" class="flip" alt="Sepatu sebelum dicuci - kotor dan berdebu">
+        </div>
+        <div class="tagline">Sebelum</div>
+      </div>
+      <div class="gal-card reveal">
+        <div class="shoe-art">
+          <img src="sebelum2.webp" alt="Sepatu sebelum dicuci - kotor dan berdebu, tampak dekat">
+        </div>
+        <div class="tagline">Sebelum</div>
+      </div>
+      <div class="gal-card reveal">
+        <div class="shoe-art">
+          <img src="sesudah1.webp" alt="Sepatu sesudah dicuci - bersih dan kering">
+        </div>
+        <div class="tagline">Sesudah</div>
+      </div>
+      <div class="gal-card reveal">
+        <div class="shoe-art">
+          <img src="sesudah2.webp" alt="Sepatu sesudah dicuci - bersih dan kering, tampak dekat">
+        </div>
+        <div class="tagline">Sesudah</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KONTAK ================= -->
+<section class="section kontak" id="kontak">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Kontak</span>
+      <h2>Yuk, bersihkan sepatumu.</h2>
+      <p class="lede">Pilih cara yang paling gampang buat kamu — chat langsung, atau isi form, nanti otomatis terkirim ke WhatsApp kami.</p>
+
+      <div class="contact-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l1.65-4.95A8.5 8.5 0 1 1 8 19.5Z"/></svg>
+        <div>
+          <strong>WhatsApp</strong>
+          <span><a href="https://wa.me/6282228617645" target="_blank" rel="noopener">+62 822-2861-7645</a></span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        <div>
+          <strong>Instagram</strong>
+          <span><a href="https://www.instagram.com/cleaner.shoes__" target="_blank" rel="noopener">@cleaner.shoes__</a></span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <div>
+          <strong>Jam operasional</strong>
+          <span>Order 24 jam, pengerjaan 1–2 hari</span>
+        </div>
+      </div>
+    </div>
+
+    <form class="order-form reveal" id="orderForm">
+      <div class="field">
+        <label for="f-nama">Nama</label>
+        <input type="text" id="f-nama" placeholder="Nama kamu" required>
+      </div>
+      <div class="field">
+        <label for="f-wa">No. WhatsApp</label>
+        <input type="tel" id="f-wa" placeholder="08xx-xxxx-xxxx" required>
+      </div>
+      <div class="field">
+        <label for="f-area">Area / Alamat</label>
+        <input type="text" id="f-area" placeholder="Buat ngatur jemputnya">
+      </div>
+      <div class="field">
+        <label for="f-catatan">Catatan kondisi sepatu</label>
+        <textarea id="f-catatan" placeholder="Sepatunya kotor karena apa, mau dijemput atau drop-off, dll."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary form-submit">Kirim ke WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="foot-row">
+    <a href="#top" class="logo"><span class="dot"></span>Cleaner Shoes</a>
+    <ul class="foot-links">
+      <li><a href="https://wa.me/6282228617645" target="_blank" rel="noopener">WhatsApp</a></li>
+      <li><a href="https://www.instagram.com/cleaner.shoes__" target="_blank" rel="noopener">Instagram</a></li>
+      <li>Berau, Kalimantan Timur</li>
+    </ul>
+  </div>
+  <p class="foot-fine">© <span id="year"></span> Cleaner Shoes — order 24 jam, proses 1–2 hari.</p>
+</footer>
+
+<!-- ================= FLOATING WA ================= -->
+<a class="float-wa" target="_blank" rel="noopener" aria-label="Chat WhatsApp"
+   href="https://wa.me/6282228617645?text=Halo%20Cleaner%20Shoes!">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l1.65-4.95A8.5 8.5 0 1 1 8 19.5Z"/></svg>
+</a>
+
+<script>
+  // Ganti nomor ini kalau nomor WA berubah
+  const WA_NUMBER = "6282228617645";
+
+  // Mobile nav toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  }));
+
+  // Order form -> WhatsApp
+  document.getElementById('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nama = document.getElementById('f-nama').value.trim();
+    const wa = document.getElementById('f-wa').value.trim();
+    const area = document.getElementById('f-area').value.trim();
+    const catatan = document.getElementById('f-catatan').value.trim();
+
+    if(!nama || !wa){
+      alert('Isi nama dan nomor WhatsApp dulu ya.');
+      return;
+    }
+
+    let msg = `Halo Cleaner Shoes! Saya mau order cuci sepatu.\nNama: ${nama}\nNo. WA: ${wa}`;
+    if(area) msg += `\nArea/Alamat: ${area}`;
+    if(catatan) msg += `\nCatatan: ${catatan}`;
+
+    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  });
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if(en.isIntersecting) en.target.classList.add('in'); });
+    }, {threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
